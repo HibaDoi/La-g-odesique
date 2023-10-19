@@ -1,0 +1,239 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<script> function hideA(x) {
+    if (x.checked) {
+      document.getElementById("div1").style.display = "none";
+      document.getElementById("div2").style.display = "block";
+    }
+  }
+ 
+  function hideB(x) {
+    if (x.checked) {
+      document.getElementById("div2").style.display = "none";
+      document.getElementById("div1").style.display = "block";
+    }
+  }
+</script>
+<script> function hideeA(x) {
+    if (x.checked) {
+      document.getElementById("div3").style.display = "none";
+      document.getElementById("div4").style.display = "block";
+    }
+  }
+ 
+  function hideeB(x) {
+    if (x.checked) {
+      document.getElementById("div4").style.display = "none";
+      document.getElementById("div3").style.display = "block";
+    }
+  }
+
+</script>
+    
+
+<center> 
+<div>
+    
+<h1>Probléme Direct</h1>
+<form action ="/appgeo/resultd/"   onsubmit="return check()" novalidate>
+    <div class="box1">
+        <div>
+    <label class="container"class="ff">Choisir un ellipsoide
+     <input type="radio" class="state" name="multinote" value="1" onchange="hideB(this)" checked>
+     <span class="checkmark"></span>
+    </label>   
+    </div>
+        <div>
+    <label class="container"class="ff">Personnaliser un ellipsoide
+     <input type="radio"  class="state" name="multinote" value="2" onclick="hideA(this)">
+     <span class="checkmark"></span>
+    </label>
+        </div>
+        </div>
+    <div class="box">
+        <div id="div1" >
+    
+        <label class="mm">choisir un ellipsoide</label>
+        <select name="sys" size="1">
+        <option  value="1"> WGS 84 
+        <option  value="2"> WGS 72
+        <option  value="3"> WGS 66
+        <option  value="4"> WGS 60
+        <option  value="5"> South American 1969
+        <option  value="6"> Krassovsky 1940
+        <option  value="7"> International
+        <option  value="8"> Hough 1956
+        <option  value="9"> G R S 1980
+        <option  value="10"> G R S 1975
+        <option  value="11"> G R S 1967
+        <option  value="12"> Fischer 1968
+        <option  value="13"> Fischer 1960
+        <option  value="14"> Everest 1830
+        <option  value="15"> Clarke 1880
+        <option  value="16"> Clarke 1886
+        <option  value="17"> Bessel 1841
+        <option  value="18"> Airy 1830
+        </SELECT><br>
+        </div>
+    </div>
+        
+    <div   id="div2" style="display:none" >
+    <div class="box">
+        <div>
+        <label class="mm">entrer a : </label>
+        <input type="number" name="aa" value="0" min="0" id="fa" ><br> 
+        <div id="ca" class="emsg"></div> <br>
+        </div>
+        <div>
+        <label class="mm">entrer b : </label>
+        <input type="number" name="bb" value="0" min="0" id="fb" ><br> 
+        <div id="cb" class="emsg"></div> <br>
+        </div>
+    </div>
+    </div>
+
+
+
+
+    <div class="box1">
+        <div>
+    <label class="container" class="ff">coordonnées géodésiques
+     <input type="radio" class="state" name="multi_note" value="1" onchange="hideeB(this)" checked>
+     <span class="checkmark"></span>
+    </label>    
+    </div>
+        <div>
+    <label class="container"class="ff">coordonnées géocentriques
+     <input type="radio"  class="state" name="multi_note" value="2" onchange="hideeA(this)">
+     <span class="checkmark"></span>
+    </label>    
+    </div>
+    </div>
+
+
+
+
+
+    <div id="div3"  >
+    <div class="box">
+        <div>
+    <label class="mm"> La latitude du point de départ </label><br>
+    
+    
+    <input type="number" name="d" placeholder="degree" min="0" max="89" id="flatd"  value="0"  required>
+    <input type="number" name="min" placeholder="minute"min="0" max="59"  id ="flatm" value="0"required> 
+    <input type="number" name="ss" placeholder="seconde"min="0" max="60"  id="flats" value="0" required>
+    
+    
+    <select name="drc_lat" size="1">
+        <option value="1"> N </option>
+        <option value="-1"> S </option>
+    </select><br>
+    <div id="clatd" class="emsg"></div> <br>
+    <div id="clatm" class="emsg"></div> <br>
+    <div id="clats" class="emsg"></div> <br>
+        </div> 
+    
+    
+    
+    
+
+<div>
+
+    <label class="mm"> La longitude du point de départ </label><br>
+    <input type="number" name="dlo" placeholder="degree" min="0" max="179" value="0" id="flod" required>
+    <input type="number" name="minlo" placeholder="minute" min="0" max="59"  value="0" id="flom" required>
+    <input type="number" name="sslo" placeholder="second"min="0" max="60" value="0" id="flos" required>
+    <select name="drc_long" size="1">
+        <option value="1"> E </option>
+        <option value="-1"> W </option>
+    </select><br>
+    <div id="clod" class="emsg"></div> <br>
+    <div id="clom" class="emsg"></div> <br>
+    <div id="clos" class="emsg"></div> <br>
+</div>
+    </div>
+</div>
+
+
+<div id="div4" style="display:none" >
+<div>
+    
+    <div class="box">
+        
+    
+    <div>
+    <label class="mm">X</label>
+    <input type="number" name="cx" placeholder="la valeur de x" value="1"  id="fx1" ><br>
+    <div id="cx1" class="emsg"></div>
+    </div>
+    <div>
+    <label class="mm">Y</label>
+    <input type="number" name="cy" placeholder="la valeur de y" value="1"   id="fy1"><br>
+    <div id="cy1" class="emsg"></div>
+    </div>
+    <div>
+    <label class="mm">Z</label>
+    <input type="number" name="cz" placeholder="la valeur de z" value="1"   id="fz1"><br>
+    <div id="cz1" class="emsg"></div>
+    </div>
+    
+
+
+
+
+</div>
+</div>
+<!--
+<div class="box">
+    <div>
+        <label class="mm">la hauteur du premier point </label>
+        <input type="number" name="h1" placeholder="hauteur du premier point"min="0" id="fh1"   value="0" required>
+        <div id="ch1" class="emsg"></div> <br>
+    </div>
+</div>
+-->
+    <div class="box">
+        <div>
+
+    <label  class="mm">entrer azimut du point du départ en degres decimal : </label><br>
+    <input type="number" name="az" min="0" max="360" id="faz" required><br> 
+    <div id="caz" class="emsg"></div> <br>
+        </div>
+    
+<div>
+    <label class="mm"> la distance géodesique en métre :</label><br>
+    <input type="number" name="s"  min="0" id="fs" required><br>
+    <div id="cs" class="emsg"></div> <br>
+</div>
+</div>
+
+<div class="box">
+    <div>
+    <button id="submitbutton" type="submit" value="Go!" >Calculer et visualiser </button>   
+    </div>
+</div>
+
+
+</center>
+{% if error_msg %}
+<script defer >
+    alert("Veuillez rentrer des valeurs valables de X, Y, Z dnas l'ellipsoide choisi!!")
+</script>
+{% elif  error_msg2 %}
+<script  defer>
+    alert("veuillez rentrer des valeurs différentes du centre de l'ellipsoide dans le deusieme point.")
+</script>
+{% endif %}
+
+
+
+
+
+</div>
+
+
+{% endblock %}
+
+

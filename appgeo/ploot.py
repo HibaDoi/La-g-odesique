@@ -1,0 +1,251 @@
+from re import template
+from typing import Text
+from math import *
+import plotly.graph_objects as go
+from numpy import  sin, cos, pi
+import  numpy as np
+
+
+
+
+def visualisation(longitude1 , latitude1,alpha1,s,a,b,h):
+
+        #visualisation de l'ellipsoide
+        h=int(h)
+        n=500
+        t=s/(n-1)
+        az_dir=[]
+        lat=[]
+        long=[]
+        az_dir.append(alpha1)
+        lat.append(latitude1)
+        long.append(longitude1)
+        for i in range(1,n) :
+                aa,bb,cc=directe(latitude1,longitude1,alpha1,t,a,b)
+                lat.append(bb)
+                long.append(aa)
+                az_dir.append(cc)
+                alpha1=az_dir[i]
+                longitude1=long[i]
+                latitude1=lat[i]
+        x=[]
+        y=[]
+        z=[]
+        for i in range(2,n):
+                e=sqrt((a**2-b**2)/(a**2))
+                N=a/sqrt(1-e**2*sin(lat[i])**2)
+                x.append((N+h)*cos(long[i])*cos(lat[i]))
+                y.append((N+h)*sin(long[i])*cos(lat[i]))
+                z.append((N*(1-e**2)+h)*sin(lat[i]))
+        return x,y,z
+
+def directe(latitude1, longitude1, alpha1, s, a, b):
+        #VERIFICATION DES PARAMèTRE DE L'ELLIPSOIDE
+
+                f = (a-b)/a
+                ep = sqrt((a**2-b**2)/b**2)
+                #Calcul de la latitude réduite beta1
+                if (abs(latitude1) != pi/2) :
+                        TanBeta1 = (1-f) * tan(latitude1)
+                        Beta1 = atan(TanBeta1 )
+                else:
+                        Beta1=latitude1
+                #Calcul de la latitude réduite beta0
+                CosBeta0 = cos(Beta1)*sin(alpha1)
+                Beta0 = acos(CosBeta0)
+                #Calcul de la constante w2
+                w2 = (sin(Beta0)*ep)**2
+                #Calcul de la distance angulaire sigma1 sur la sphère auxiliaire
+                if latitude1 == pi/2 or latitude1 == -pi/2 :
+                        sigma1=Beta1
+                elif alpha1==pi/2 or alpha1==3*pi/2 :
+                        if latitude1==0 :
+                                sigma1=0
+                        else :
+                                sigma1=pi/2
+                else:
+                        sigma1 = atan2( TanBeta1, cos(alpha1))
+                #Calcul de l'azimut de la géodésique à l'équateur alphae
+                Sinalphae = CosBeta0
+                alphae = asin(Sinalphae)
+                cosalphae_2= 1.0 - Sinalphae**2
+                #Calcul des constantes de Vincenty A' et B'
+                A = 1.0 + (w2 / 16384) * (4096 + w2 * (-768 + w2 * (320 - 175 * w2) ) )
+                B = (w2 / 1024) * (256 + w2 * (-128 + w2 * (74 - 47 * w2) ) )
+                #Calcul de la distance angulaire sigma sur le grand cercle de la sphère auxiliaire
+                sigma0 = (s / (b * A))
+                sigma_m2 = (2 * sigma1 + sigma0)
+                delta_sigma = B * sin(sigma0) * ( cos(sigma_m2)+ (B/4) * (cos(sigma0)*(-1 + 2 * pow( cos(sigma_m2), 2 ) - (B/6) * cos(sigma_m2) *(-3 + 4 * pow(sin(sigma0), 2 )) *(-3 + 4 * pow( cos (sigma_m2), 2 )))))
+                sigma = sigma0  + delta_sigma
+                while ( abs(sigma-sigma0)>0.00001) :
+                        sigma0=sigma
+                        sigma_m2 = (2 * sigma1 + sigma0)
+                        delta_sigma = B * sin(sigma0) * ( cos(sigma_m2)+ (B/4) * (cos(sigma0) *(-1 + 2 * pow( cos(sigma_m2), 2 ) -(B/6) * cos(sigma_m2) *(-3 + 4 * pow(sin(sigma0), 2 )) *(-3 + 4 * pow( cos (sigma_m2), 2 )))))
+                        sigma = (s / (b * A)) + delta_sigma
+                #Calcul de la latitude 2
+                TanBeta2=(sin(Beta1) * cos(sigma) + cos(Beta1) * sin(sigma) * cos(alpha1))/(sqrt( pow(Sinalphae, 2)+pow(sin(Beta1) * sin(sigma) - cos(Beta1) * cos(sigma) * cos(alpha1), 2)))
+                latitude2 =atan(TanBeta2/(1-f))
+                #Calcul de la différence de longitude sur la sphère auxiliaire deltau
+                deltau=atan((sin(sigma)*sin(alpha1))/(cos(Beta1)*cos(sigma)-sin(Beta1)*sin(sigma)*cos(alpha1)))
+                #Calcul de la constante C de Vincenty
+                C = (f/16) * cosalphae_2 * (4 + f * (4 - 3 * cosalphae_2 ))
+                #Calcul de la différence de longitude dellambda
+                deltalambda = deltau - (1-C) * f * Sinalphae *(sigma*pi/180 + C * sin(sigma) * (cos(sigma_m2) +C * cos(sigma) * (-1 + 2 * pow(cos(sigma_m2),2) )))
+                longitude2 = (longitude1 + deltalambda)
+                #Calcul de l'azimut alpha2 et de l'azimut inverse
+                alpha2 = atan2 ( Sinalphae, (cos(Beta1) * cos(sigma) * cos(alpha1)-sin(Beta1) * sin(sigma)))
+                if latitude1==pi/2:
+                        return longitude2+pi,latitude2,alpha2
+
+                else:
+                        return longitude2,latitude2,alpha2
+
+
+
+
+def ellipsoide(longitude1 , latitude1,alpha1,s,a,b,h):
+                phi = np.linspace(-pi, pi)
+                theta = np.linspace(-pi/2, pi/2)
+
+                phi, theta=np.meshgrid(phi, theta)
+
+                X = cos(theta) * sin(phi) * a
+                Y = cos(theta) * cos(phi) * a
+                Z = sin(theta)*b
+
+                layout = go.Layout(width = 800, height =800,title_text='Géodesique')
+
+                fig = go.Figure(data=[go.Surface(x = X, y = Y, z=Z, colorscale = 'Blues')], layout=layout)
+
+                fig.update_traces(contours_z=dict(show=True, usecolormap=True,highlightcolor="limegreen", project_z=True))
+
+                x,y,z=visualisation(longitude1,latitude1,alpha1,s,a,b,h)
+
+
+
+
+                fig.add_scatter3d(x=x,y=y,z=z,mode='lines',marker ={'color':'black'})
+
+                fig.add_scatter3d(x=[x[0]],y=[y[0]],z=[z[0]],mode='markers',marker ={'color':'yellow'})
+                fig.add_scatter3d(x=[x[-1]],y=[y[-1]],z=[z[-1]],mode='markers',marker ={'color':'green'})
+                ############################################
+                for i in [-80,-70,-60,-50,-40,-30,-20,-10,10,20,30,40,50,60,70,80]:
+                        phi = np.linspace(0, 360,100)
+                        theta = np.linspace(i, i,100)
+
+                        phi = phi*pi/180
+                        theta = theta*pi/180
+                        #phi, theta=np.meshgrid(phi, theta)
+                        x = cos(theta) * sin(phi) * a
+                        y = cos(theta) * cos(phi) * a
+                        z = sin(theta)*b
+                        t="latitude"+str(i)
+                        fig.add_scatter3d(x =x, y = y, z=z,mode='lines', marker={'color':'red'},text=t)
+                ########################################################################
+                phi = np.linspace(0, 360,100)
+                theta = np.linspace(0, 0,100)
+                phi = phi*pi/180
+                theta = theta*pi/180
+                #phi, theta=np.meshgrid(phi, theta)
+                x = cos(theta) * sin(phi) * a
+                y = cos(theta) * cos(phi) * a
+                z = sin(theta)*b
+                t="équateur"
+                fig.add_scatter3d(x =x, y = y, z=z,mode='lines', marker={'color':'#FFC300'},text=t)
+                ############################################################################3
+                for i in [-170,-160,-150,-140,-130,-120,-110,-100,-80,-90,-70,-60,-50,-40,-30,-20,-10,10,20,30,40,50,60,70,80,100,110,120,130,140,150,160,170]:
+                        phi = np.linspace(i, i,100)
+                        theta = np.linspace(-90,90,100)
+
+                        phi = phi*pi/180
+                        theta = theta*pi/180
+                phi = phi*pi/180
+                theta = theta*pi/180
+                x=[]
+                y=[]
+                z=[]
+
+                for i in range(100):
+                        e=sqrt((a**2-b**2)/(a**2))
+                        N=a/sqrt(1-e**2*sin(theta[i]**2))
+                        x.append((N)*cos(phi[i])*cos(theta[i]))
+                        y.append((N)*sin(phi[i])*cos(theta[i]))
+                        z.append((N*(1-e**2))*sin(theta[i]))
+                fig.add_scatter3d(x =x, y = y, z=z,mode='lines', marker={'color':'red'})
+                ##################################################################################
+                phi = np.linspace(0, 0,100)
+                theta = np.linspace(-90,90,100)
+
+                phi = phi*pi/180
+                theta = theta*pi/180
+                phi = phi*pi/180
+                theta = theta*pi/180
+                x=[]
+                y=[]
+                z=[]
+
+                for i in range(100):
+                        e=sqrt((a**2-b**2)/(a**2))
+                        N=a/sqrt(1-e**2*sin(theta[i]**2))
+                        x.append((N)*cos(phi[i])*cos(theta[i]))
+                        y.append((N)*sin(phi[i])*cos(theta[i]))
+                        z.append((N*(1-e**2))*sin(theta[i]))
+                t="Greenwich"
+
+                fig.add_scatter3d(x =x, y = y, z=z,mode='lines', marker={'color':'#28B463'},text=t)
+                ###################################################################################
+                phi = np.linspace(-180,-180,100)
+                theta = np.linspace(-90,90,100)
+
+                phi = phi*pi/180
+                theta = theta*pi/180
+                phi = phi*pi/180
+                theta = theta*pi/180
+                x=[]
+                y=[]
+                z=[]
+
+                for i in range(100):
+                        e=sqrt((a**2-b**2)/(a**2))
+                        N=a/sqrt(1-e**2*sin(theta[i]**2))
+                        x.append((N)*cos(phi[i])*cos(theta[i]))
+                        y.append((N)*sin(phi[i])*cos(theta[i]))
+                        z.append((N*(1-e**2))*sin(theta[i]))
+                t="anti-Greenwich"
+                fig.add_scatter3d(x =x, y = y, z=z,mode='lines', marker={'color':'#28B463'},text=t)
+
+                ###########################################
+
+                plot_div = fig.to_html(full_html=False)
+
+
+
+                return plot_div
+
+
+                        
+                ###########################################
+                phi = np.linspace(0, 0,100)
+                theta = np.linspace(-90,90,100)
+                
+                phi = phi*pi/180
+                theta = theta*pi/180
+                x=[]
+                y=[]
+                z=[]
+
+                for i in range(100):
+                        e=sqrt((a**2-b**2)/(a**2))
+                        N=a/sqrt(1-e**2*sin(theta[i]**2))
+                        x.append((N)*cos(phi[i])*cos(theta[i]))
+                        y.append((N)*sin(phi[i])*cos(theta[i]))
+                        z.append((N*(1-e**2))*sin(theta[i]))
+                t="Greenwich"
+                fig.add_scatter3d(x =x, y = y, z=z,mode='lines', marker={'color':'#28B463'},text=t)
+
+                plot_div = fig.to_html(full_html=False)
+
+               
+                
+                return plot_div
+

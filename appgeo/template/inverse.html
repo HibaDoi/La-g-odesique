@@ -1,0 +1,265 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<script type="text/javascript">
+    function showMe (it, box) {
+    var vis = (box.checked) ? "block" : "none";
+    document.getElementById(it).style.display = vis;
+    }
+</script>
+<script> function hideA(x) {
+    if (x.checked) {
+      document.getElementById("div1").style.display = "none";
+      document.getElementById("div2").style.display = "block";
+    }
+  }
+ 
+  function hideB(x) {
+    if (x.checked) {
+      document.getElementById("div2").style.display = "none";
+      document.getElementById("div1").style.display = "block";
+    }
+  }
+</script>
+<script> function hideeA(x) {
+    if (x.checked) {
+      document.getElementById("div3").style.display = "none";
+      document.getElementById("div4").style.display = "block";
+    }
+  }
+ 
+  function hideeB(x) {
+    if (x.checked) {
+      document.getElementById("div4").style.display = "none";
+      document.getElementById("div3").style.display = "block";
+    }
+  }
+</script>
+
+<center>
+<div>
+
+<h1>Probléme Inverse</h1>
+<form action ="/appgeo/resul"  onsubmit="return checck()" novalidate>
+    <div class="box1">
+        <div>
+    <label class="container">Choisir un ellipsoide
+     <input type="radio" class="state" name="multinote" value="1" onclick="hideB(this)" checked>
+     <span class="checkmark"></span>
+    </label>   
+    </div>
+        <div>
+    <label class="container">Personnaliser un ellipsoide
+     <input type="radio"  class="state" name="multinote" value="2" onclick="hideA(this)">
+     <span class="checkmark"></span>
+    </label>
+        </div>
+        </div>   
+    <div class="box" >
+        <div id="div1" >
+
+        <label class="mm">Choisir un ellipsoide</label>
+        <select name="sys" size="1">
+        <option  value="1"> WGS 84</option>
+        <option  value="2"> WGS 72</option>
+        <option  value="3"> WGS 66</option>
+        <option  value="4"> WGS 60</option>
+        <option  value="5"> South American 1969</option>
+        <option  value="6"> Krassovsky 1940</option>
+        <option  value="7"> International</option>
+        <option  value="8"> Hough 1956</option>
+        <option  value="9"> G R S 1980</option>
+        <option  value="10"> G R S 1975</option>
+        <option  value="11"> G R S 1967</option>
+        <option  value="12"> Fischer 1968</option>
+        <option  value="13"> Fischer 1960</option>
+        <option  value="14"> Everest 1830</option>
+        <option  value="15"> Clarke 1880</option>
+        <option  value="16"> Clarke 1886</option>
+        <option  value="17"> Bessel 1841</option>
+        <option  value="18"> Airy 1830</option>
+        </SELECT><br>
+        </div>
+    </div>
+
+    <div  id="div2" style="display:none">
+    <div class="box">
+        <div>
+        <label class="mm"> Entrer a :</label>
+        <input type="number" name="aa" value="0" min="0" id="finv_a" ><br>
+        <div id="cinv_a" class="emsg"></div> <br>
+        </div>
+
+        <div>
+        <label class="mm"> Entrer b :</label>
+        <input type="number" name="bb"value="0"  min="0" id="finv_b"><br> 
+        <div id="cinv_b" class="emsg"></div> <br>
+        </div>
+    </div>
+    </div>
+   
+    <div class="box1">
+        <div>
+    <label class="container" class="ff">Coordonnées géodésiques
+     <input type="radio" class="state" name="multi_note" value="1" onclick="hideeB(this)" checked>
+     <span class="checkmark"></span>
+    </label>    
+    </div>
+        <div>
+    <label class="container" class="ff">Coordonnées géocentriques
+     <input type="radio"  class="state" name="multi_note" value="2" onclick="hideeA(this)">
+     <span class="checkmark"></span>
+    </label>    
+    </div>
+    </div>   
+    <div id="div3"  >
+    <div class="box">
+        <div>
+        <label class="mm"> La latitude du premier point</label><br>
+
+
+        <input type="number" name="d" placeholder="degree" value="0" min="0" max="89" id="flatd1i" required>
+        <input type="number" name="min" placeholder="minute"   value="0" min="0" max="59" id= "flatm1i" required> 
+        <input type="number" name="ss"placeholder="seconde"  value="0" min="0" max="60" id="flats1i" required>
+
+
+        <select name="drc_lat_1" size="1">
+            <option value="1"> N </option>
+            <option value="-1"> S </option>
+        </select><br>
+        <div id="clatd1i" class="emsg"></div> <br>
+        <div id="clatm1i" class="emsg"></div> <br>
+        <div id="clats1i" class="emsg"></div> <br>
+        </div>
+
+        <div>
+        <label class="mm"> La longitude du premier point</label><br>
+        <input type="number" name="dlo" placeholder="degree"  value="0" min="0" max="179" id="flongd1i" required>
+        <input type="number" name="minlo" placeholder="minute" value="0" min="0" max="59" id= "flongm1i" required> 
+        <input type="number" name="sslo" placeholder="seconde" value="0"  min="0" max="60" id="flongs1i" required>
+        <select name="drc_long_1" size="1">
+            <option value="1"> E </option>
+            <option value="-1"> W </option>
+        </select><br>
+        <div id="clongd1i" class="emsg"></div> <br>
+        <div id="clongm1i" class="emsg"></div> <br>
+        <div id="clongs1i" class="emsg"></div> <br>
+        </div>
+    </div>
+
+    <div class="box">
+        <div>
+        <label  class="mm"> La latitude du deuxième point</label><br>
+        <input type="number" name="d2" placeholder="degree" value="0" min="0" max="89" id="flatd2i"required>
+        <input type="number" name="min2"  placeholder="minute" value="0" min="0" max="89" id="flatm2i" required> 
+        <input type="number"name="ss2" placeholder="seconde" value="0"  min="0" max="89" id="flats2i" required>
+        <select name="drc_lat_2" size="1">
+            <option value="1"> N </option>
+            <option value="-1"> S </option>
+        </select><br>
+        <div id="clatd2i" class="emsg"></div> <br>
+        <div id="clatm2i" class="emsg"></div> <br>
+        <div id="clats2i" class="emsg"></div> <br>
+        </div>
+        
+        
+        <div>
+
+        <label  class="mm" > La longitude du deuxième point</label><br>
+        <input type="number" name="dlo2"  placeholder="degree"  value="0" min="0" max="179" id="flongd2i" required>
+        <input type="number" name="minlo2" placeholder="minute"  value="0" min="0" max="59" id="flongm2i"required> 
+        <input type="number" name="sslo2"placeholder="seconde"  value="0" min="0" max="60" id="flongs2i"required>
+        <select name="drc_long_2" size="1">
+            <option value="1" type="number "> E </option>
+            <option value="-1" type="number "> W </option>
+        </select><br>
+        <div id="clongd2i" class="emsg"></div> <br>
+        <div id="clongm2i" class="emsg"></div> <br>
+        <div id="clongs2i" class="emsg"></div> <br>
+        
+        </div>
+    </div>
+    </div>
+
+    <div id="div4" style="display:none">
+        <div>
+            
+            <label>Le premier point </label>
+            <div class="box">
+            
+                
+            
+            <div>
+            <label class="mm">X</label>
+            <input type="number" name="cx1" placeholder="la valeur de x" value="1"  id="fx1i"><br>
+            <div id="cx1i" class="emsg"></div>
+            </div>
+            <div>
+            <label class="mm">Y</label>
+            <input type="number" name="cy1" placeholder="la valeur de y" value="1"  id="fy1i"><br>
+            <div id="cy1i" class="emsg"></div>
+            </div>
+            <div>
+            <label class="mm">Z</label>
+            <input type="number" name="cz1" placeholder="la valeur de z" value="1" id="fz1i"><br>
+            <div id="cz1i" class="emsg"></div>
+            </div>
+        
+            </div>
+            <label>Le deusième  point </label>
+            <div class="box">
+                
+                    
+                
+                <div>
+                <label class="mm">X</label>
+                <input type="number" name="cx2" placeholder="la valeur de x" value="1"  id="fx2i"><br>
+                <div id="cx2i" class="emsg"></div>
+                </div>
+                <div>
+                <label class="mm">Y</label>
+                <input type="number" name="cy2" placeholder="la valeur de y" value="1"   id="fy2i"><br>
+                <div id="cy2i" class="emsg"></div>
+                </div>
+                <div>
+                <label class="mm">Z</label>
+                <input type="number" name="cz2" placeholder="la valeur de z" value="1"   id="fz2i"><br>
+                <div id="cz2i" class="emsg"></div>
+                </div>
+            
+                </div>
+        
+        
+        </div>
+        </div>
+
+   
+    <div class="box">
+        <div>
+        <button type="submit" value="Go!" >Calculer et visualiser </button>   
+        </div>
+    </div>
+
+    {% if error_msg %}
+    <script defer >
+        alert("Veuillez rentrer des valeurs valables de X1, Y1, Z1 dans l'ellipsoide choisi!!")
+    </script>
+    {% elif  error_msg1 %}
+    <script defer >
+        alert("Veuillez rentrer des valeurs valables de X2, Y2, Z2 dans l'ellipsoide choisi!!")
+    </script>
+    {% elif  error_msg2 %}
+    <script cefer >
+        alert("veuillez rentrer des valeurs différentes du centre de l'ellipsoide dans le premier point.")
+    </script>
+    {% elif  error_msg3 %}
+    <script  defer>
+        alert("veuillez rentrer des valeurs différentes du centre de l'ellipsoide dans le deusieme point.")
+    </script>
+    {% endif %}
+    
+
+</center>
+</div>
+<script scr="/erreurinv.js"></script>
+{% endblock %}

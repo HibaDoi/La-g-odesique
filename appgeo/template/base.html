@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script scr="erreur.js"></script>
+  <div>
+    <form>
+      <script src="https://www.amcharts.com/lib/4/core.js"></script>
+  <script src="https://www.amcharts.com/lib/4/maps.js"></script>
+  <script src="https://www.amcharts.com/lib/4/geodata/worldLow.js"></script>
+  <script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
+  <div id="chartdiv"></div>
+  <script>
+    // Themes begin
+  am4core.useTheme(am4themes_animated);
+  // Themes end
+  
+  var chart = am4core.create("chartdiv", am4maps.MapChart);
+  
+  // Set map definition
+  chart.geodata = am4geodata_worldLow;
+  
+  // Set projection
+  chart.projection = new am4maps.projections.Orthographic();
+  chart.panBehavior = "rotateLongLat";
+  chart.deltaLatitude = -20;
+  chart.padding(20,20,20,20);
+  
+  // Create map polygon series
+  var polygonSeries = chart.series.push(new am4maps.MapPolygonSeries());
+  
+  // Make map load polygon (like country names) data from GeoJSON
+  polygonSeries.useGeodata = true;
+  //polygonSeries.include = ["BR", "UA", "MX", "CI"];
+  
+  // Configure series
+  var polygonTemplate = polygonSeries.mapPolygons.template;
+  polygonTemplate.tooltipText = "{name}";
+  polygonTemplate.fill = am4core.color("#FF6633");
+  polygonTemplate.stroke = am4core.color("#000033");
+  polygonTemplate.strokeWidth = 0.5;
+  polygonTemplate.cursorOverStyle = am4core.MouseCursorStyle.pointer;
+  polygonTemplate.url = "https://www.datadrum.com/main.php?package={id}";
+  polygonTemplate.urlTarget = "_blank";
+  
+  var graticuleSeries = chart.series.push(new am4maps.GraticuleSeries());
+  graticuleSeries.mapLines.template.line.stroke = am4core.color("#ffffff");
+  graticuleSeries.mapLines.template.line.strokeOpacity = 0.08;
+  graticuleSeries.fitExtent = false;
+  
+  
+  chart.backgroundSeries.mapPolygons.template.polygon.fillOpacity = 0.1;
+  chart.backgroundSeries.mapPolygons.template.polygon.fill = am4core.color("#ffffff");
+  
+  // Create hover state and set alternative fill color
+  var hs = polygonTemplate.states.create("hover");
+  hs.properties.fill = chart.colors.getIndex(0).brighten(-0.5);
+  
+  let animation;
+  setTimeout(function(){
+  animation = chart.animate({property:"deltaLongitude", to:100000}, 20000000);
+  }, 3000)
+  
+  chart.seriesContainer.events.on("down", function(){
+  //  animation.stop();
+  })
+  </script>
+    </form>
+  </div>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>géodésique</title>
+<script>
+      function check () {
+        // (C1) INIT
+        var valid = true, error = "", field = "";
+      
+        // (C2) a
+        field = document.getElementById("fa");
+        error = document.getElementById("ca");
+        if (!field.checkValidity()) {
+          valid = false;
+          field.classList.add("err");
+          error.innerHTML = "a  doit être positif  \r\n";
+        } else {
+          field.classList.remove("err");
+          error.innerHTML = "";
+        }
+      
+        // (C3) b
+        field = document.getElementById("fb");
+        error = document.getElementById("cb");
+        if (!field.checkValidity()) {
+          valid = false;
+          field.classList.add("err");
+          error.innerHTML = "b doit être positif etinférieur à a\r\n";
+        } else {
+          field.classList.remove("err");
+          error.innerHTML = "";
+        }
+        // (C4) s
+        field = document.getElementById("fs");
+        error = document.getElementById("cs");
+        if (!field.checkValidity()) {
+          valid = false;
+          field.classList.add("err");
+          error.innerHTML = "erreur, distance doit être positive\r\n";
+        } else {
+          field.classList.remove("err");
+          error.innerHTML = "";
+        }
+        // (C5) ALPHA1
+        field = document.getElementById("faz");
+        error = document.getElementById("caz");
+        if (!field.checkValidity()) {
+          valid = false;
+          field.classList.add("err");
+          error.innerHTML = "Erreur : azimut doit être entre 0° et 360°\r\n";
+        } else {
+          field.classList.remove("err");
+          error.innerHTML = "";
+        }
+        // (C6) Latitude Degree
+        field = document.getElementById("flatd");
+        error = document.getElementById("clatd");
+        if (!field.checkValidity()) {
+          valid = false;
+          field.classList.add("err");
+          error.innerHTML = "valeur doit etre entre 0° et 89°\r\n";
+        } else {
+          field.classList.remove("err");
+          error.innerHTML = "";
+        }      
+        // (C7) Latitude min
+        field = document.getElementById("flatm");
+        error = document.getElementById("clatm");
+        if (!field.checkValidity()) {
+          valid = false;
+          field.classList.add("err");
+          error.innerHTML = "valeur doit etre entre 0° et 59°\r\n";
+        } else {
+          field.classList.remove("err");
+          error.innerHTML = "";
+        }    
+        // (C8) Latitude second
+        field = document.getElementById("flats");
+        error = document.getElementById("clats");
+        if (!field.checkValidity()) {
+          valid = false;
+          field.classList.add("err");
+          error.innerHTML = "valeur doit etre entre 0° et 60°\r\n";
+        } else {
+          field.classList.remove("err");
+          error.innerHTML = "";
+        }  
+        // (C9) Longitude Degree
+        field = document.getElementById("flod");
+        error = document.getElementById("clod");
+        if (!field.checkValidity()) {
+          valid = false;
+          field.classList.add("err");
+          error.innerHTML = "valeur doit etre entre 0° et 179°\r\n";
+        } else {
+          field.classList.remove("err");
+          error.innerHTML = "";
+        }      
+        // (C10) Latitude min
+        field = document.getElementById("flom");
+        error = document.getElementById("clom");
+        if (!field.checkValidity()) {
+          valid = false;
+          field.classList.add("err");
+          error.innerHTML = "valeur doit etre entre 0° et 59°\r\n";
+        } else {
+          field.classList.remove("err");
+          error.innerHTML = "";
+        }    
+        // (C12) Latitude second
+        field = document.getElementById("flos");
+        error = document.getElementById("clos");
+        if (!field.checkValidity()) {
+          valid = false;
+          field.classList.add("err");
+          error.innerHTML = "valeur doit etre entre 0° et 60°\r\n";
+        } else {
+          field.classList.remove("err");
+          error.innerHTML = "";
+        }  
+ 
+        
+        // (C13) RESULT
+        return valid;
+      }
+      function checck () {
+        // (C1) INIT
+        var valid = true, error = "", field = "";
+        // (C6) a inverse
+        field = document.getElementById("finv_a");
+        error = document.getElementById("cinv_a");
+        if (!field.checkValidity()) {
+          valid = false;
+          field.classList.add("err");
+          error.innerHTML = "a  doit être positif \r\n";
+        } else {
+          field.classList.remove("err");
+          error.innerHTML = "";
+        } 
+        // (C6) b inverse
+        field = document.getElementById("finv_b");
+        error = document.getElementById("cinv_b");
+        if (!field.checkValidity()) {
+          valid = false;
+          field.classList.add("err");
+          error.innerHTML = "b  doit être positif \r\n";
+        } else {
+          field.classList.remove("err");
+          error.innerHTML = "";
+        }  
+        // (C6) Latitude Degree premier point
+        field = document.getElementById("flatd1i");
+        error = document.getElementById("clatd1i");
+        if (!field.checkValidity()) {
+          valid = false;
+          field.classList.add("err");
+          error.innerHTML = "valeur doit etre entre 0° et 89°\r\n";
+        } else {
+          field.classList.remove("err");
+          error.innerHTML = "";
+        }  
+        // (C6) Latitude minute premier point
+        field = document.getElementById("flatm1i");
+        error = document.getElementById("clatm1i");
+        if (!field.checkValidity()) {
+          valid = false;
+          field.classList.add("err");
+          error.innerHTML = "valeur doit etre entre 0° et 59°\r\n";
+        } else {
+          field.classList.remove("err");
+          error.innerHTML = "";
+        } 
+        // (C6) Latitude second premier point
+        field = document.getElementById("flats1i");
+        error = document.getElementById("clats1i");
+        if (!field.checkValidity()) {
+          valid = false;
+          field.classList.add("err");
+          error.innerHTML = "valeur doit etre entre 0° et 60°\r\n";
+        } else {
+          field.classList.remove("err");
+          error.innerHTML = "";
+        }
+        // (C6) Longitude Degree premier point
+        field = document.getElementById("flongd1i");
+        error = document.getElementById("clongd1i");
+        if (!field.checkValidity()) {
+          valid = false;
+          field.classList.add("err");
+          error.innerHTML = "valeur doit etre entre 0° et 179°\r\n";
+        } else {
+          field.classList.remove("err");
+          error.innerHTML = "";
+        }   
+        // (C6) Longitude minute premier point
+        field = document.getElementById("flongm1i");
+        error = document.getElementById("clongm1i");
+        if (!field.checkValidity()) {
+          valid = false;
+          field.classList.add("err");
+          error.innerHTML = "valeur doit etre entre 0° et 59°\r\n";
+        } else {
+          field.classList.remove("err");
+          error.innerHTML = "";
+        }     
+        // (C6) Longitude second premier point
+        field = document.getElementById("flongs1i");
+        error = document.getElementById("clongs1i");
+        if (!field.checkValidity()) {
+          valid = false;
+          field.classList.add("err");
+          error.innerHTML = "valeur doit etre entre 0° et 60°\r\n";
+        } else {
+          field.classList.remove("err");
+          error.innerHTML = "";
+        }      
+        // (C6) Latitude Degree deusieme point
+        field = document.getElementById("flatd2i");
+        error = document.getElementById("clatd2i");
+        if (!field.checkValidity()) {
+          valid = false;
+          field.classList.add("err");
+          error.innerHTML = "valeur doit etre entre 0° et 89°\r\n";
+        } else {
+          field.classList.remove("err");
+          error.innerHTML = "";
+        }   
+        // (C6) Latitude minute deusieme point
+        field = document.getElementById("flatm2i");
+        error = document.getElementById("clatm2i");
+        if (!field.checkValidity()) {
+          valid = false;
+          field.classList.add("err");
+          error.innerHTML = "valeur doit etre entre 0° et 59°\r\n";
+        } else {
+          field.classList.remove("err");
+          error.innerHTML = "";
+        }     
+        // (C6) Latitude second deusieme point
+        field = document.getElementById("flats2i");
+        error = document.getElementById("clats2i");
+        if (!field.checkValidity()) {
+          valid = false;
+          field.classList.add("err");
+          error.innerHTML = "valeur doit etre entre 0° et 60°\r\n";
+        } else {
+          field.classList.remove("err");
+          error.innerHTML = "";
+        }  
+        // (C6) Longitude Degree 2 point
+        field = document.getElementById("flongd2i");
+        error = document.getElementById("clongd2i");
+        if (!field.checkValidity()) {
+          valid = false;
+          field.classList.add("err");
+          error.innerHTML = "valeur doit etre entre 0° et 179°\r\n";
+        } else {
+          field.classList.remove("err");
+          error.innerHTML = "";
+        }   
+        // (C6) Longitude minute premier point
+        field = document.getElementById("flongm2i");
+        error = document.getElementById("clongm2i");
+        if (!field.checkValidity()) {
+          valid = false;
+          field.classList.add("err");
+          error.innerHTML = "valeur doit etre entre 0° et 59°\r\n";
+        } else {
+          field.classList.remove("err");
+          error.innerHTML = "";
+        }     
+        // (C6) Longitude second premier point
+        field = document.getElementById("flongs2i");
+        error = document.getElementById("clongs2i");
+        if (!field.checkValidity()) {
+          valid = false;
+          field.classList.add("err");
+          error.innerHTML = "valeur doit etre entre 0° et 60°\r\n";
+        } else {
+          field.classList.remove("err");
+          error.innerHTML = "";
+        } 
+        
+
+        
+        
+        // (C14) RESULT
+        return valid;
+      }
+  
+</script>
+
+<style>
+/* Customize the label (the container) */
+.container {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 18px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  width: 400px;
+}
+
+/* Hide the browser's default checkbox */
+.container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: #eee;
+}
+
+/* On mouse-over, add a grey background color */
+.container:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+
+/* When the checkbox is checked, add a blue background */
+.container input:checked ~ .checkmark {
+  background-color: #2196F3;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+.container input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+.container .checkmark:after {
+  left: 9px;
+  top: 5px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+  .brand-title {
+    margin-top: 10px;
+    font-weight: 900;
+    font-size: 1.4rem;
+    color: #F2D096;
+    
+    font-family:Georgia, 'Times New Roman', Times, serif;
+  }
+  label {
+    margin-top: 10px;
+    font-weight: 900;
+    
+    color: #F2D096;
+    
+    font-family:Georgia, 'Times New Roman', Times, serif;
+  }
+  .mm{
+    font-size: medium;
+    color:#ED8975;
+  }
+  h1,h2  {
+    margin-top: 10px;
+    font-weight: 900;
+    font-size: 1.8rem;
+    color: #8FB9AA;
+    
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  button ,select{
+    display: block;
+    width: 100%;
+    padding: 0;
+    border: none;
+    outline: none;
+    box-sizing: border-box;
+  }
+  label, input, button ,select{
+    display: block;
+    width: 280px;
+    padding: 0;
+    border: none;
+    outline: none;
+    box-sizing: border-box;
+  }
+  input{
+    display: block;
+    width: 280px;
+    padding: 0;
+    border: none;
+    outline: none;
+    box-sizing: border-box;
+  }
+
+  button {
+    margin-top: 40px;
+    background: #8FB9AA;
+    height: 50px;
+    width: 230px;
+    border-radius: 25px;
+    color:#304D63;
+    cursor: pointer;
+    font-weight: 900;
+    box-shadow: 1px 1px 1px ,#B2E7E8, -1px -1px 1px #B2E7E8;
+    transition: 0.5s;
+  }
+  body {
+    background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)),
+      url(https://images.pexels.com/photos/41953/earth-blue-planet-globe-planet-41953.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500)
+        no-repeat center center/cover;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+
+  input , select {
+    background: #ecf0f3;
+    padding: 10px;
+    padding-left: 20px;
+    height: 50px;
+    font-size: 14px;
+    border-radius: 50px;
+    box-shadow: inset 6px 6px 6px #cbced1, inset -6px -6px 6px white;
+  }
+  label {
+    margin-bottom: 4px;
+  }
+  
+
+
+  .err { background: #ffe6ee; border: 1px solid #b1395f; }
+  .emsg { color: #c12020; font-weight: bold; }
+  .ccst{
+          height: 4.3rem;
+          font-size: 2rem;
+  }
+  .box{display:flex;
+        width: 100 px;
+        justify-content : space-around;
+        margin : 0 5px ;
+        
+        
+  }
+  .box1{display:flex;
+    width: 100 px;
+    justify-content : space-evenly;
+    margin : 0 5px ;   
+}
+.form {
+  display: none;
+}
+.form.active {
+  display: block
+}
+  .plot{
+          position: absolute;
+          height: 800px;
+        }
+        
+      </style>
+</head>
+
+<body bgcolor=#304D63>
+ {%block content%}  
+
+ 
+ {%endblock%}
+</body >
+
+<footer>
+  <a href="https://github.com/HibaDoi19/ProjetGeo"> github code </a>
+</footer>
+
+</html>
