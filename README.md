@@ -1,28 +1,29 @@
-# Geodesic Computation: Direct & Inverse Problem Solver on an Ellipsoid 
+# Geodesic Computation & 3D Visualization on an Ellipsoid
 
 ## Problem Solved  
-- Implemented **Vincenty's geodetic algorithm** to compute **direct and inverse geodesic problems** on an ellipsoid.  
-- Given an **initial geographic coordinate, azimuth, and distance**, the solver computes the **destination coordinates and reverse azimuth**.  
-- Addresses the **challenge of geodesic curvature** and **non-spherical Earth models** by accounting for **ellipsoidal flattening**.  
+- Implemented **Vincenty's geodetic algorithm** for solving **direct and inverse geodesic problems** on an ellipsoid.  
+- Developed a **3D visualization tool** to **plot geodesic curves on an ellipsoid** using **Plotly**.  
+- Simulated **real-world geodesic paths**, while accounting for **Earth’s flattening and curvature**.  
 
 ## Tech Stack  
-- **Programming Language:** Python  
 - **Mathematical Models:** Vincenty's formulae, Ellipsoidal Geodesy  
-- **Libraries Used:** `math` (trigonometric calculations)  
+- **Programming Language:** Python  
+- **Libraries Used:** Plotly (3D visualization), NumPy (trigonometric calculations), Math (geodetic computations)  
 
 ## Key Contributions  
-- **Implemented the direct geodesic problem**, calculating the **final latitude, longitude, and azimuth** after a given distance.  
-- **Developed inverse geodesic calculations** to determine the **shortest path between two points** on an ellipsoid.  
-- **Optimized the iterative solution** using **Vincenty's convergence method** for greater numerical precision.  
-- **Added boundary conditions** to handle **extreme latitude and longitude cases**.  
+- **Implemented geodesic calculations** for **precise latitude, longitude, and azimuth outputs** using an **iterative solution**.  
+- **Developed a 3D ellipsoid model** using **Plotly**, simulating **Earth’s shape and visualizing geodesic paths**.  
+- **Created a real-time interactive tool** to plot **different geodesic curves** on a configurable ellipsoid.  
+- **Integrated reference meridians** (Greenwich, anti-Greenwich, and parallels) for **geospatial accuracy**.  
 
 ## Key Features  
-✅ **Supports ellipsoidal geodesy calculations**  
-✅ **Accurate latitude, longitude, and azimuth outputs**  
-✅ **Handles edge cases for extreme latitudes/longitudes**  
-✅ **Refines calculations iteratively to minimize errors**  
+✅ **Computes direct and inverse geodesic problems** with high accuracy  
+✅ **Plots geodesic paths on an ellipsoid in 3D**  
+✅ **Configurable ellipsoidal parameters** (semi-major, semi-minor axes, and geodetic height)  
+✅ **Visualizes meridians, parallels, and equator** for reference  
+✅ **Interactive HTML export** for web-based visualization  
 
 ## Key Results  
-✅ **Provides high-precision geodesic computations** with iterative convergence.  
-✅ Can be **extended for geospatial applications, surveying, and navigation systems**.  
-✅ **Enables accurate pathfinding on Earth's surface**, crucial for **GIS and mapping applications**.  
+✅ **Accurate geodesic path calculations** on an ellipsoid, useful for **GIS, surveying, and navigation applications**.  
+✅ **Realistic 3D geodetic simulations**, allowing **better understanding of Earth’s curvature effects**.  
+✅ **Scalable for web-based applications**, enhancing **accessibility for geospatial professionals**.  
