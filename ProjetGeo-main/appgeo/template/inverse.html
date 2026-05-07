@@ -36,11 +36,10 @@
   }
 </script>
 
-<center>
-<div>
+<div class="center">
 
 <h1>Probléme Inverse</h1>
-<form action ="/appgeo/resul"  onsubmit="return checck()" novalidate>
+<form action="/appgeo/resul/" onsubmit="return checck()" novalidate>
     <div class="box1">
         <div>
     <label class="container">Choisir un ellipsoide
@@ -78,7 +77,7 @@
         <option  value="16"> Clarke 1886</option>
         <option  value="17"> Bessel 1841</option>
         <option  value="18"> Airy 1830</option>
-        </SELECT><br>
+        </select><br>
         </div>
     </div>
 
@@ -170,8 +169,8 @@
         <input type="number" name="minlo2" placeholder="minute"  value="0" min="0" max="59" id="flongm2i"required> 
         <input type="number" name="sslo2"placeholder="seconde"  value="0" min="0" max="60" id="flongs2i"required>
         <select name="drc_long_2" size="1">
-            <option value="1" type="number "> E </option>
-            <option value="-1" type="number "> W </option>
+            <option value="1"> E </option>
+            <option value="-1"> W </option>
         </select><br>
         <div id="clongd2i" class="emsg"></div> <br>
         <div id="clongm2i" class="emsg"></div> <br>
@@ -236,30 +235,28 @@
    
     <div class="box">
         <div>
-        <button type="submit" value="Go!" >Calculer et visualiser </button>   
+        <button type="submit">Calculer et visualiser</button>
         </div>
     </div>
+</form>
 
-    {% if error_msg %}
-    <script defer >
-        alert("Veuillez rentrer des valeurs valables de X1, Y1, Z1 dans l'ellipsoide choisi!!")
-    </script>
-    {% elif  error_msg1 %}
-    <script defer >
-        alert("Veuillez rentrer des valeurs valables de X2, Y2, Z2 dans l'ellipsoide choisi!!")
-    </script>
-    {% elif  error_msg2 %}
-    <script cefer >
-        alert("veuillez rentrer des valeurs différentes du centre de l'ellipsoide dans le premier point.")
-    </script>
-    {% elif  error_msg3 %}
-    <script  defer>
-        alert("veuillez rentrer des valeurs différentes du centre de l'ellipsoide dans le deusieme point.")
-    </script>
-    {% endif %}
-    
+{% if error_msg %}
+<script defer>
+    alert("Veuillez rentrer des valeurs valables de X1, Y1, Z1 dans l'ellipsoide choisi!!")
+</script>
+{% elif error_msg1 %}
+<script defer>
+    alert("Veuillez rentrer des valeurs valables de X2, Y2, Z2 dans l'ellipsoide choisi!!")
+</script>
+{% elif error_msg2 %}
+<script defer>
+    alert("Veuillez rentrer des valeurs différentes du centre de l'ellipsoide dans le premier point.")
+</script>
+{% elif error_msg3 %}
+<script defer>
+    alert("Veuillez rentrer des valeurs différentes du centre de l'ellipsoide dans le deuxième point.")
+</script>
+{% endif %}
 
-</center>
 </div>
-<script scr="/erreurinv.js"></script>
 {% endblock %}

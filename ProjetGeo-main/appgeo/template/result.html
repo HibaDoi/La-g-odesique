@@ -1,41 +1,31 @@
-{% extends 'base.html' %} 
-{%block content%} 
-<center>
-<h1 > Résultat du Probléme Direct</h1>
-<div class="box">
-
-    <div>
-<label class="brand-title ">la latitude d'arrivée </label>
-<input value="{{latituded}}">
-<input value="{{latitudem}}">
-<input value=" {{latitudes}}">
-</div>
-<div>
-    <label class="brand-title ">la longitude d'arrivée</label>
-    <input value="{{longituded}}  ">
-    <input value="{{longitudem}}">
-    <input value="{{longitudes}}">
-        </div>
-</div>
+{% extends 'base.html' %}
+{% block content %}
+<div class="center">
+<h1>Résultat du Probléme Direct</h1>
 <div class="box">
     <div>
-<label class="brand-title "> azimut inverse  </label>
-<input value="{{angle_azhimutale}}">
+        <label class="brand-title">la latitude d'arrivée</label>
+        <input value="{{latituded}}" readonly>
+        <input value="{{latitudem}}" readonly>
+        <input value="{{latitudes}}" readonly>
+    </div>
+    <div>
+        <label class="brand-title">la longitude d'arrivée</label>
+        <input value="{{longituded}}" readonly>
+        <input value="{{longitudem}}" readonly>
+        <input value="{{longitudes}}" readonly>
+    </div>
+</div>
+<div class="box">
+    <div>
+        <label class="brand-title">azimut inverse</label>
+        <input value="{{angle_azhimutale}}" readonly>
     </div>
 </div>
 
-
-
-    <div class="row" >
-
+<div class="row">
     <h2 class="visualisation">Visualisation</h2>
-      <script scr="https://cdn.plot.ly/plotly-latest.min.js"></script>
-      
-          {{plot|safe}}
-        
-      
-    </div>
-</center>
-
-
-{%endblock%} 
+    {{plot|safe}}
+</div>
+</div>
+{% endblock %}

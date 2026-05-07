@@ -32,11 +32,10 @@
 </script>
     
 
-<center> 
-<div>
-    
+<div class="center">
+
 <h1>Probléme Direct</h1>
-<form action ="/appgeo/resultd/"   onsubmit="return check()" novalidate>
+<form action="/appgeo/resultd/" onsubmit="return check()" novalidate>
     <div class="box1">
         <div>
     <label class="container"class="ff">Choisir un ellipsoide
@@ -56,25 +55,25 @@
     
         <label class="mm">choisir un ellipsoide</label>
         <select name="sys" size="1">
-        <option  value="1"> WGS 84 
-        <option  value="2"> WGS 72
-        <option  value="3"> WGS 66
-        <option  value="4"> WGS 60
-        <option  value="5"> South American 1969
-        <option  value="6"> Krassovsky 1940
-        <option  value="7"> International
-        <option  value="8"> Hough 1956
-        <option  value="9"> G R S 1980
-        <option  value="10"> G R S 1975
-        <option  value="11"> G R S 1967
-        <option  value="12"> Fischer 1968
-        <option  value="13"> Fischer 1960
-        <option  value="14"> Everest 1830
-        <option  value="15"> Clarke 1880
-        <option  value="16"> Clarke 1886
-        <option  value="17"> Bessel 1841
-        <option  value="18"> Airy 1830
-        </SELECT><br>
+        <option value="1">WGS 84</option>
+        <option value="2">WGS 72</option>
+        <option value="3">WGS 66</option>
+        <option value="4">WGS 60</option>
+        <option value="5">South American 1969</option>
+        <option value="6">Krassovsky 1940</option>
+        <option value="7">International</option>
+        <option value="8">Hough 1956</option>
+        <option value="9">G R S 1980</option>
+        <option value="10">G R S 1975</option>
+        <option value="11">G R S 1967</option>
+        <option value="12">Fischer 1968</option>
+        <option value="13">Fischer 1960</option>
+        <option value="14">Everest 1830</option>
+        <option value="15">Clarke 1880</option>
+        <option value="16">Clarke 1886</option>
+        <option value="17">Bessel 1841</option>
+        <option value="18">Airy 1830</option>
+        </select><br>
         </div>
     </div>
         
@@ -178,11 +177,7 @@
     <input type="number" name="cz" placeholder="la valeur de z" value="1"   id="fz1"><br>
     <div id="cz1" class="emsg"></div>
     </div>
-    
-
-
-
-
+</div>
 </div>
 </div>
 <!--
@@ -211,19 +206,18 @@
 
 <div class="box">
     <div>
-    <button id="submitbutton" type="submit" value="Go!" >Calculer et visualiser </button>   
+    <button id="submitbutton" type="submit">Calculer et visualiser</button>
     </div>
 </div>
+</form>
 
-
-</center>
 {% if error_msg %}
-<script defer >
-    alert("Veuillez rentrer des valeurs valables de X, Y, Z dnas l'ellipsoide choisi!!")
+<script defer>
+    alert("Veuillez rentrer des valeurs valables de X, Y, Z dans l'ellipsoide choisi!!")
 </script>
-{% elif  error_msg2 %}
-<script  defer>
-    alert("veuillez rentrer des valeurs différentes du centre de l'ellipsoide dans le deusieme point.")
+{% elif error_msg2 %}
+<script defer>
+    alert("Veuillez rentrer des valeurs différentes du centre de l'ellipsoide dans le premier point.")
 </script>
 {% endif %}
 
