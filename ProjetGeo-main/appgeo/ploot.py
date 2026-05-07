@@ -1,9 +1,7 @@
-from re import template
-from typing import Text
 from math import *
 import plotly.graph_objects as go
-from numpy import  sin, cos, pi
-import  numpy as np
+from numpy import sin, cos, pi
+import numpy as np
 
 
 

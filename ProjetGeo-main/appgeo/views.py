@@ -1,22 +1,8 @@
-
-from re import template
-from tkinter import E, W
-from typing import Text
-from _plotly_utils.utils import template_doc
 from django.shortcuts import render
-from django.http import HttpResponse
 from math import *
-from plotly.offline import iplot, init_notebook_mode, plot 
-import plotly.graph_objects as go
-from numpy import FLOATING_POINT_SUPPORT, sin, cos, pi
-import  numpy as np
-import plotly.express as px 
-import datetime
-import glob
-import logging
-import os
+from numpy import sin, cos, pi
 from . import ploot
-from . import direct 
+from . import direct
 from . import innverse
 from . import geocentrique2geodesique
 

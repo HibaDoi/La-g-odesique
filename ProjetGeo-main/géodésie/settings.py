@@ -55,7 +55,7 @@ ROOT_URLCONF = 'géodésie.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['/home/Geodesique2022/ProjetGeo/appgeo/template'],
+        'DIRS': [BASE_DIR / 'appgeo' / 'template'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
